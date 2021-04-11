@@ -5,11 +5,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import Deposits from "./Deposits";
-import Orders from "./Orders";
-import Menu, { MentorMenu, StudentMenu } from "./Menu";
+import { StudentMenu } from "./Menu";
 import { Dashboard } from "@material-ui/icons";
-import Title from "./Title";
 import { Label, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
@@ -19,59 +16,58 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import mentors from "../mockData/mentors";
-
-function createData(time, amount) {
-    return { time, amount };
-}
+import Title from "../Atoms/Title";
+import createChartData from "../utilities/createChartData";
+import Chart from "./Chart";
 
 const data = [
-    createData("Aug, 2020", 0),
-    createData("Sep, 2020", 10),
-    createData("Oct, 2020", 24),
-    createData("Nov, 2020", 26),
-    createData("Dec, 2020", 48),
-    createData("Jan, 2021", 60),
-    createData("Feb, 2021", 62),
-    createData("Mar, 2021", 62),
-    createData("Apr, 2021", undefined),
+    createChartData("Aug, 2020", 0),
+    createChartData("Sep, 2020", 10),
+    createChartData("Oct, 2020", 24),
+    createChartData("Nov, 2020", 26),
+    createChartData("Dec, 2020", 48),
+    createChartData("Jan, 2021", 60),
+    createChartData("Feb, 2021", 62),
+    createChartData("Mar, 2021", 62),
+    createChartData("Apr, 2021", undefined),
 ];
 
-function Chart() {
-    const theme = useTheme();
-
-    return (
-        <React.Fragment>
-            <Title>My Career Progress to Date</Title>
-            <ResponsiveContainer>
-                <LineChart
-                    data={data}
-                    margin={{
-                        top: 16,
-                        right: 16,
-                        bottom: 0,
-                        left: 24,
-                    }}
-                >
-                    <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
-                    <YAxis
-                        stroke={theme.palette.text.secondary}
-                        tickFormatter={(tick) => `${tick}%`}
-                        ticks={[0, 25, 50, 75, 100]}
-                    >
-                        <Label
-                            angle={270}
-                            position="left"
-                            style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
-                        >
-                            Progress (%)
-                        </Label>
-                    </YAxis>
-                    <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
-                </LineChart>
-            </ResponsiveContainer>
-        </React.Fragment>
-    );
-}
+// function Chart() {
+//     const theme = useTheme();
+//
+//     return (
+//         <>
+//             <Title>My Career Progress to Date</Title>
+//             <ResponsiveContainer>
+//                 <LineChart
+//                     data={data}
+//                     margin={{
+//                         top: 16,
+//                         right: 16,
+//                         bottom: 0,
+//                         left: 24,
+//                     }}
+//                 >
+//                     <XAxis dataKey="time" stroke={theme.palette.text.secondary} />
+//                     <YAxis
+//                         stroke={theme.palette.text.secondary}
+//                         tickFormatter={(tick) => `${tick}%`}
+//                         ticks={[0, 25, 50, 75, 100]}
+//                     >
+//                         <Label
+//                             angle={270}
+//                             position="left"
+//                             style={{ textAnchor: "middle", fill: theme.palette.text.primary }}
+//                         >
+//                             Progress (%)
+//                         </Label>
+//                     </YAxis>
+//                     <Line type="monotone" dataKey="amount" stroke={theme.palette.primary.main} dot={false} />
+//                 </LineChart>
+//             </ResponsiveContainer>
+//         </>
+//     );
+// }
 
 function NextStep() {
     const classes = useStyles();
@@ -181,12 +177,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const menuItems = [
-    { text: "Dashboard", Icon: Dashboard },
-    { text: "Dashboard", Icon: Dashboard },
-    { text: "Dashboard", Icon: Dashboard },
-];
-
 const rows = mentors.slice(4, 6);
 
 function preventDefault(event) {
@@ -240,24 +230,26 @@ export default function StudentProfile() {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <StudentMenu title={"Profile"} menuItems={menuItems} />
+            <StudentMenu title={"Profile"} />
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
                     <Grid container spacing={3}>
-                        {/* Chart */}
                         <Grid item xs={12} md={8} lg={9}>
                             <Paper className={fixedHeightPaper}>
-                                <Chart />
+                                <Chart
+                                    label={"Progress (%)"}
+                                    data={data}
+                                    title={"My Career Progress to Date"}
+                                    formatFunction={(tick) => `${tick}%`}
+                                />
                             </Paper>
                         </Grid>
-                        {/* Recent Deposits */}
                         <Grid item xs={12} md={4} lg={3}>
                             <Paper className={fixedHeightPaper}>
                                 <NextStep />
                             </Paper>
                         </Grid>
-                        {/* Recent Orders */}
                         <Grid item xs={12}>
                             <Paper className={classes.paper}>
                                 <Mentors />

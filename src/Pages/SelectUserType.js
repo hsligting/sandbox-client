@@ -100,7 +100,6 @@ export default function SelectUserType() {
     return (
         <React.Fragment>
             <CssBaseline />
-            {/* Hero unit */}
             <Container maxWidth="sm" component="main" className={classes.heroContent}>
                 <Box display={"flex"} justifyContent={"center"} style={{ paddingBottom: 20 }}>
                     <Logo />
@@ -109,7 +108,6 @@ export default function SelectUserType() {
                     Connecting and referring students, mentors, and employers reliably.
                 </Typography>
             </Container>
-            {/* End hero unit */}
             <Container maxWidth="md" component="main">
                 <Grid container spacing={5} alignItems="flex-end">
                     {tiers.map((tier) => (

@@ -1,15 +1,11 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
-import { Box } from "@material-ui/core";
 import { MentorMenu } from "./Menu";
 import useDashboardStyles from "../classStyles/useDashboardStyles";
+import JobListingCard from "../Organisms/JobListingCard";
 
 const cards = [
     {
@@ -44,30 +40,8 @@ export default function MentorJobListings() {
                 </div>
                 <Container className={classes.container} maxWidth="md">
                     <Grid container spacing={4}>
-                        {cards.map(({ email, companyName, description, industry, jobTitle, imgUrl }, index) => (
-                            <Grid item key={index} xs={12} sm={6} md={4}>
-                                <Card className={classes.card}>
-                                    <CardMedia className={classes.cardMedia} image={imgUrl} title="Image title" />
-                                    <CardContent className={classes.cardContent}>
-                                        <Typography variant="h5">{jobTitle}</Typography>
-                                        <Typography
-                                            gutterBottom
-                                            variant="subtitle1"
-                                            style={{ fontSize: "16px" }}
-                                            color={"primary"}
-                                        >
-                                            {companyName}
-                                        </Typography>
-                                        <Typography>{description}</Typography>
-                                        <Box style={{ paddingRight: 10, paddingTop: 6, paddingBottom: 12 }}>
-                                            <BulletPoint label={"Industry"}>{industry}</BulletPoint>
-                                        </Box>
-                                        <Button variant="contained" color={"primary"} fullWidth>
-                                            Refer Student
-                                        </Button>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
+                        {cards.map((listing, index) => (
+                            <JobListingCard index={index} classes={classes} listing={listing} />
                         ))}
                     </Grid>
                 </Container>
@@ -75,12 +49,3 @@ export default function MentorJobListings() {
         </div>
     );
 }
-
-const BulletPoint = ({ children, label }) => {
-    return (
-        <Box display={"flex"} flexDirection={"column"} alignContent={"center"}>
-            <Typography variant={"subtitle2"}>{label}:</Typography>
-            <Typography variant={"subtitle"}>{children}</Typography>
-        </Box>
-    );
-};
